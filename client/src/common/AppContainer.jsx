@@ -15,7 +15,7 @@ export const AppContainer = props => {
   const classes = useStyles()
   return (
     <ThemeProvider theme={theme}>
-      <Container className={classes.container} maxWidth="lg">
+      <Container className={classes.container} maxWidth="xl">
         {props.children}
       </Container>
     </ThemeProvider>
