@@ -1,21 +1,10 @@
 import React from 'react'
-import { Link as RouterLink } from 'react-router-dom';
-import { makeStyles, Link } from '@material-ui/core'
-
-const useStyles = makeStyles({
-  headerWrapper: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  header: {
-    fontSize: 40,
-  },
-})
+import { Map } from '../common/Map'
 
 export const MainPage = () => {
   return (
     <>
-     ьфшт
+      <Map />
     </>
   )
 }
