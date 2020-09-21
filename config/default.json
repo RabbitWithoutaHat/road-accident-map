@@ -1,0 +1,6 @@
+{
+  "port": 5000,
+  "mongoUri": "mongodb+srv://fekla:feklaUserMongo@cluster0.o6u6a.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtSecret": "sign user dem",
+  "baseUrl": "http://localhost:5000"
+}
