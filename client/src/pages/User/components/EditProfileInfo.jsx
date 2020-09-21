@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import Tooltip from '@material-ui/core/Tooltip'
-import { useHttp } from '../../../hooks/http.hook'
 import { AuthContext } from '../../../context/AuthContext'
 
 const useStyles = makeStyles(theme => ({
@@ -76,12 +75,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function EditProfileInfo({ setIsEdit, user }) {
   const classes = useStyles()
-  const { token, userId } = useContext(AuthContext)
+  const { userId } = useContext(AuthContext)
   const [form, setForm] = useState({})
   const [formImg, setFormImg] = useState()
   const [avatarImage, setAvatarImage] = useState()
-
-  const { request } = useHttp()
 
   const changeHandler = event => {
     setForm({ ...form, [event.target.name]: event.target.value })

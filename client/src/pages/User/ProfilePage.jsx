@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useHttp } from '../../hooks/http.hook'
 import Loader from '../../common/Loader'
 import EditProfileInfo from './components/EditProfileInfo'

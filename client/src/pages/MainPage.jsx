@@ -13,7 +13,6 @@ const useStyles = makeStyles({
 })
 
 export const MainPage = () => {
-  const classes = useStyles()
   return (
     <>
      ьфшт

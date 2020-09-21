@@ -1,49 +1,21 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import MailIcon from '@material-ui/icons/Mail'
 import MoreIcon from '@material-ui/icons/MoreVert'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import PowerOutlinedIcon from '@material-ui/icons/PowerOutlined'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import PowerOffOutlinedIcon from '@material-ui/icons/PowerOffOutlined'
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
-import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined'
 import {
-  TextField,
   IconButton,
   Typography,
-  Badge,
   Toolbar,
   AppBar,
   MenuItem,
   Menu,
   fade,
   makeStyles,
-  withStyles,
 } from '@material-ui/core'
-import Autocomplete from '@material-ui/lab/Autocomplete'
-import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
-
-const SearchTextField = withStyles({
-  root: {
-    '& .MuiInputBase-root': {
-      color: 'white',
-    },
-    '& label.Mui-focused': {
-      border: 'none',
-    },
-    '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-      border: 'none',
-    },
-    '& .MuiInput-underline:after': {
-      border: 'none',
-    },
-    '& .MuiInput-underline:before': {
-      border: 'none',
-    },
-  },
-})(TextField)
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -117,10 +89,6 @@ export default function NavBar() {
   const history = useHistory()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
-  const [companies, setCompanies] = useState([])
-  const [company, setCompany] = useState({})
-  const { request, loading, setError } = useHttp()
-  const { token } = useContext(AuthContext)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -158,16 +126,6 @@ export default function NavBar() {
   const mainHandler = event => {
     event.preventDefault()
     history.push('/')
-  }
-
-  const onSelectCompany = event => {
-    event.persist()
-    const company = companies.find(company => company.name === event.target.value)
-    if (company) {
-      history.push(`/company/${company._id}`)
-      setCompany({})
-      setCompanies([])
-    }
   }
 
   const menuId = 'primary-search-account-menu'
