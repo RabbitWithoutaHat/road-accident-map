@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
+import { withStyles } from '@material-ui/core'
 import { DropzoneDialog } from 'material-ui-dropzone'
 import Button from '@material-ui/core/Button'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
 import axios from 'axios'
-import Loader from './Loader'
 
 export const Uploader = () => {
   const { request, loading, setError } = useHttp()
+  const history = useHistory()
   const { token } = useContext(AuthContext)
   const [isOpen, setIsOpen] = useState(false)
   const [file, setFile] = useState(null)
@@ -23,7 +25,11 @@ export const Uploader = () => {
             'content-type': 'multipart/form-data: boundary=hzbudhszbduhzsbdhGUVgfYFcTdc',
           },
         }
-        axios.post('/api/data', data, config).then(setError('Данные загружены'))
+        axios.post('/api/data', data, config).then(data => {
+          console.log('fetchData -> data', data)
+
+          history.push('/sdsd')
+        })
       } catch (e) {
         setError(e)
       }
@@ -53,10 +59,12 @@ export const Uploader = () => {
       <DropzoneDialog
         open={isOpen}
         onSave={handleSave}
-        // acceptedFiles={['image/jpeg', 'image/png', 'image/bmp']}
-        showPreviews={true}
         maxFileSize={5000000}
         onClose={handleClose}
+        showPreviews={false}
+        showPreviewsInDropzone={true}
+        filesLimit={1}
+        acceptedFiles={['.xlsx', '.csv']}
       />
     </div>
   )
