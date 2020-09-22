@@ -24,6 +24,9 @@ const schema = new Schema({
   geometry: {
     type: Object,
   },
+  info: {
+    type: Object,
+  },
 })
 
 module.exports = model('Accident', schema)

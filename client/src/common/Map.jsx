@@ -32,7 +32,24 @@ export const Map = ({ year }) => {
       const fetched = await request(`/api/data/${year}`, 'GET', null, {
         Authorization: `Bearer ${token}`,
       })
-      setMarkers(fetched)
+      const data = fetched.map(item => {
+        const formattedInfo = Object.keys(item.info).map(key => {
+          if (key && key !== 'undefined') {
+            return `<br><span style="font-size: 15px">${key}: ${item.info[key]}</span>`
+          }
+          return `<br>`
+        })
+        formattedInfo.shift()
+        return {
+          ...item,
+          properties: {
+            ...item.properties,
+            balloonContentHeader: item.info['Вид ДТП'],
+            balloonContentBody: formattedInfo,
+          },
+        }
+      })
+      setMarkers(data)
     } catch (e) {}
   }, [token, request, year])
 
@@ -41,7 +58,6 @@ export const Map = ({ year }) => {
   }, [year])
 
   useEffect(() => {
-    console.log('getMarkers -> markers.length', markers.length)
     if (markers.length) {
       window.ymaps.ready(init)
     }
