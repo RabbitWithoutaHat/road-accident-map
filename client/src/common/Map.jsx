@@ -6,7 +6,7 @@ import { useHttp } from '../hooks/http.hook'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: 100,
+    marginTop: 20,
     paddingBottom: 40,
     width: '75vw',
     height: '100vh',
