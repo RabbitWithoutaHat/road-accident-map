@@ -49,7 +49,7 @@ export default function ControlledOpenSelect({onChange}) {
           onChange={handleChange}
         >
           <MenuItem value="">
-            <em>None</em>
+            <em>За все время</em>
           </MenuItem>
           <MenuItem value={2017}>2017</MenuItem>
           <MenuItem value={2018}>2018</MenuItem>
