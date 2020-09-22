@@ -94,7 +94,7 @@ export const Map = ({ year }) => {
       ) : !(markers.length > 0) ? (
         <Container className={classes.cardGrid}>Данные не загружены</Container>
       ) : (
-        <div id="map" style={{ width: '100vw', height: '70vh' }}></div>
+        <div id="map" style={{ width: '100vw', height: '80vh' }}></div>
       )}
     </>
   )

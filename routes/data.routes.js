@@ -7,6 +7,10 @@ const router = Router()
 
 router.get('/:year', async (req, res) => {
   const year = req.params.year
+  if (year === 'All') {
+    const accidentList = await Accident.find()
+    res.status(200).json(accidentList)
+  }
   const startDate = new Date(`01.01.${year}`)
   const endDate = new Date(`12.31.${year}`)
   try {
