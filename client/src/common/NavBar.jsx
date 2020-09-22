@@ -203,12 +203,12 @@ export default function NavBar() {
           ) : (
             <>
               <div className={classes.sectionDesktop}>
-                <IconButton onClick={authHandler}>
+                <IconButton color="inherit" onClick={authHandler}>
                   <PowerOutlinedIcon />
                 </IconButton>
               </div>
               <div className={classes.sectionMobile}>
-                <IconButton onClick={authHandler}>
+                <IconButton color="inherit" onClick={authHandler}>
                   <PowerOutlinedIcon />
                 </IconButton>
               </div>
