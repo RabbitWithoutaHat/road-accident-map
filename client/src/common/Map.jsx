@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container'
+
 import { AuthContext } from '../context/AuthContext'
 import Loader from './Loader'
 import { useHttp } from '../hooks/http.hook'
@@ -11,9 +13,14 @@ const useStyles = makeStyles(theme => ({
     width: '75vw',
     height: '100vh',
   },
+  cardGrid: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 40,
+  },
 }))
 
-export const Map = () => {
+export const Map = ({ year }) => {
   const classes = useStyles()
   const { token } = useContext(AuthContext)
   const { request, loading } = useHttp()
@@ -22,16 +29,16 @@ export const Map = () => {
 
   const getMarkers = useCallback(async () => {
     try {
-      const fetched = await request(`/api/data`, 'GET', null, {
+      const fetched = await request(`/api/data/${year}`, 'GET', null, {
         Authorization: `Bearer ${token}`,
       })
       setMarkers(fetched)
     } catch (e) {}
-  }, [token, request])
+  }, [token, request, year])
 
   useEffect(() => {
     getMarkers()
-  }, [])
+  }, [year])
 
   useEffect(() => {
     console.log('getMarkers -> markers.length', markers.length)
@@ -41,7 +48,7 @@ export const Map = () => {
   }, [markers])
 
   const init = () => {
-    var myMap = new window.ymaps.Map(
+    const myMap = new window.ymaps.Map(
         'map',
         {
           center: [55.746395, 49.128817],
@@ -57,51 +64,22 @@ export const Map = () => {
         clusterDisableClickZoom: true,
       })
 
-    objectManager.objects.options.set('preset', 'islands#greenDotIcon')
+    objectManager.objects.options.set('preset', 'islands#darkBlueIcon')
     objectManager.clusters.options.set('preset', 'islands#invertedRedClusterIcons')
     myMap.geoObjects.add(objectManager)
 
     objectManager.add({ type: 'FeatureCollection', features: markers })
   }
 
-  const features = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        id: 0,
-        geometry: {
-          type: 'Point',
-          coordinates: [55.831903, 37.411961],
-        },
-        properties: {
-          balloonContent: 'Магазин на углу',
-          data: {
-            organization: 'shop',
-            open: '9am - 9pm',
-          },
-        },
-      },
-      {
-        type: 'Feature',
-        id: 1,
-        geometry: {
-          type: 'Point',
-          coordinates: [55.763338, 37.565466],
-        },
-        properties: {
-          // balloonContent: 'Аптека',
-          data: {
-            organization: 'pharmacy',
-            open: '8am - 10pm',
-          },
-        },
-      },
-    ],
-  }
-
-  return <>
-    {loading && <Loader />}
-    {!loading && <div id="map" style={{ width: '100vw', height: '70vh' }}></div>}
-  </>
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : !(markers.length > 0) ? (
+        <Container className={classes.cardGrid}>Данные не загружены</Container>
+      ) : (
+        <div id="map" style={{ width: '100vw', height: '70vh' }}></div>
+      )}
+    </>
+  )
 }

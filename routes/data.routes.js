@@ -5,11 +5,15 @@ const Accident = require('../models/Accident')
 
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/:year', async (req, res) => {
+  const year = req.params.year
+  const startDate = new Date(`01.01.${year}`)
+  const endDate = new Date(`12.31.${year}`)
   try {
-    const accidentList = await Accident.find()
+    const accidentList = await Accident.find({ date: { $gte: startDate, $lt: endDate } })
     res.status(200).json(accidentList)
   } catch (error) {
+    console.log('error', error)
     res.status(500).json({
       message: 'Не удалось получить данные',
     })
@@ -45,12 +49,6 @@ router.post('/', upload, async (req, res) => {
           headers[col] = value
           continue
         }
-        if (headers[col] === 'latitude' && (value > 56.716176 || value < 53.94944)) {
-          continue
-        }
-        if (headers[col] === 'longitude' && (value > 54.344333 || value < 47.148289)) {
-          continue
-        }
 
         if (!data[row]) data[row] = {}
         data[row][headers[col]] = value
@@ -59,10 +57,7 @@ router.post('/', upload, async (req, res) => {
         try {
           const { latitude, longitude, location, ...rest } = item
           const acceptedGeometry =
-            latitude < 56.716176 &&
-            latitude > 53.94944 &&
-            longitude < 54.344333 &&
-            longitude > 47.148289
+            latitude < 57 && latitude > 53 && longitude < 56 && longitude > 45
 
           if (index > 1 && acceptedGeometry) {
             const accident = new Accident({
@@ -74,7 +69,8 @@ router.post('/', upload, async (req, res) => {
               type: 'Feature',
               geometry: { type: 'Point', coordinates: [latitude, longitude] },
               properties: {
-                balloonContent: rest,
+                balloonContentBody: rest,
+                iconContent: item['Погибло'],
               },
             })
             await accident.save()
@@ -83,9 +79,11 @@ router.post('/', upload, async (req, res) => {
       })
     })
 
-    console.log('data.length', data.lenth)
     console.timeEnd('writedata')
-    return res.status(200)
+    console.log(data.length)
+    return res.status(200).json({
+      message: 'Данные загружены',
+    })
   } catch (error) {
     return res.status(500).json({
       message: 'Данные не загружены',
