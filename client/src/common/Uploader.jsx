@@ -4,14 +4,13 @@ import Button from '@material-ui/core/Button'
 import { useHttp } from '../hooks/http.hook'
 import { AuthContext } from '../context/AuthContext'
 import axios from 'axios'
+import Loader from './Loader'
 
 export const Uploader = () => {
-  const { request, loading } = useHttp()
+  const { request, loading, setError } = useHttp()
   const { token } = useContext(AuthContext)
-  console.log('Uploader -> token', token)
   const [isOpen, setIsOpen] = useState(false)
   const [file, setFile] = useState(null)
-  console.log('fetchData -> 111files', file)
 
   const fetchData = useCallback(async () => {
     if (file) {
@@ -24,8 +23,10 @@ export const Uploader = () => {
             'content-type': 'multipart/form-data: boundary=hzbudhszbduhzsbdhGUVgfYFcTdc',
           },
         }
-        axios.post('/api/data', data, config)
-      } catch (e) {}
+        axios.post('/api/data', data, config).then(setError('Данные загружены'))
+      } catch (e) {
+        setError(e)
+      }
     }
   }, [token, request, file])
 

@@ -1,22 +1,15 @@
 const { Schema, model } = require('mongoose')
 
 const schema = new Schema({
-  lat: {
-    type: Number,
-    required: true,
-  },
-  lon: {
-    type: Number,
-    required: true,
-  },
   location: {
     type: String,
   },
   date: {
     type: String,
   },
-  number: {
+  id: {
     type: String,
+    unique: true,
   },
   died: {
     type: String,
@@ -25,6 +18,12 @@ const schema = new Schema({
     type: String,
   },
   info: { type: Object },
+  type: {
+    type: String,
+  },
+  geometry: {
+    type: Object,
+  },
 })
 
 module.exports = model('Accident', schema)

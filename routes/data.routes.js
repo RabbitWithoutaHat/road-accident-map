@@ -5,6 +5,17 @@ const Accident = require('../models/Accident')
 
 const router = Router()
 
+router.get('/', async (req, res) => {
+  try {
+    const accidentList = await Accident.find()
+    res.status(200).json(accidentList)
+  } catch (error) {
+    res.status(500).json({
+      message: 'Не удалось получить данные',
+    })
+  }
+})
+
 router.post('/', upload, async (req, res) => {
   console.log('req', req.body)
   console.log('req')
@@ -42,36 +53,29 @@ router.post('/', upload, async (req, res) => {
         if (!data[row]) data[row] = {}
         data[row][headers[col]] = value
       }
-      console.log(data[2])
       data.forEach(async (item, index) => {
         try {
           const { latitude, longitude, location, ...rest } = item
           if (index > 1) {
             const accident = new Accident({
-              lat: latitude,
-              lon: longitude,
               location: location,
               date: item['Дата'],
-              number: item['Номер'],
+              id: item['Номер'],
               died: item['Погибло'],
               injured: item['Ранено'],
               info: rest,
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: [latitude, longitude] },
             })
             await accident.save()
           }
-        } catch (error) {
-          console.log('error', error)
-        }
+        } catch (error) {}
       })
-      console.log('test')
     })
-    return res.status(200).json({
-      test: data[3],
-    })
+    return res.status(200)
   } catch (error) {
-    console.log('error', error)
     return res.status(500).json({
-      message: 'Ошибка авторизации',
+      message: 'Данные не загружены',
     })
   }
 })
