@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react'
 // import { YMaps, Map as DefaultMap, ObjectManager } from 'react-yandex-maps'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from '../context/AuthContext'
+import Loader from './Loader'
 import { useHttp } from '../hooks/http.hook'
 
 const useStyles = makeStyles(theme => ({
@@ -100,5 +101,8 @@ export const Map = () => {
     ],
   }
 
-  return <div id="map" style={{ width: '75vw', height: '70vh' }}></div>
+  return <>
+    {loading && <Loader />}
+    {!loading && <div id="map" style={{ width: '100vw', height: '70vh' }}></div>}
+  </>
 }
