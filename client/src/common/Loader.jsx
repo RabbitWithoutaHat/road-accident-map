@@ -9,7 +9,7 @@ export default function Loader() {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{ minHeight: '100vh' }}>
+      style={{ minHeight: '70vh' }}>
       <Grid item xs={12}>
         <CircularProgress size="100px" color="primary" />
       </Grid>
