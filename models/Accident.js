@@ -5,7 +5,7 @@ const schema = new Schema({
     type: String,
   },
   date: {
-    type: String,
+    type: Date,
   },
   id: {
     type: String,
@@ -17,7 +17,7 @@ const schema = new Schema({
   injured: {
     type: String,
   },
-  info: { type: Object },
+  properties: { type: Object },
   type: {
     type: String,
   },

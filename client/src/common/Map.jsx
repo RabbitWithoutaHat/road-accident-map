@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react'
-// import { YMaps, Map as DefaultMap, ObjectManager } from 'react-yandex-maps'
 import { makeStyles } from '@material-ui/core/styles'
 import { AuthContext } from '../context/AuthContext'
 import Loader from './Loader'
@@ -54,12 +53,12 @@ export const Map = () => {
       ),
       objectManager = new window.ymaps.ObjectManager({
         clusterize: true,
-        gridSize: 32,
+        gridSize: 30,
         clusterDisableClickZoom: true,
       })
 
     objectManager.objects.options.set('preset', 'islands#greenDotIcon')
-    objectManager.clusters.options.set('preset', 'islands#greenClusterIcons')
+    objectManager.clusters.options.set('preset', 'islands#invertedRedClusterIcons')
     myMap.geoObjects.add(objectManager)
 
     objectManager.add({ type: 'FeatureCollection', features: markers })
