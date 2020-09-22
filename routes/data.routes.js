@@ -69,9 +69,9 @@ router.post('/', upload, async (req, res) => {
               type: 'Feature',
               geometry: { type: 'Point', coordinates: [latitude, longitude] },
               properties: {
-                balloonContentBody: rest,
                 iconContent: item['Погибло'],
               },
+              info: rest,
             })
             await accident.save()
           }
